@@ -4,6 +4,7 @@ import discord
 
 from io import BytesIO
 import pandas as pd
+
 import re
 
 from datetime import datetime
@@ -74,12 +75,10 @@ def export_data(guild_id:int,team_name:str)->Optional[discord.File]:
 
 
 
-def result_formatter(diff:int)->str:
-    """returns formatted results"""
-    if diff > 0: return 'Win  '+f'(+{diff})'.rjust(6)
-    elif diff == 0: return 'Draw'.ljust(11)
-    else: return 'Lose '+f'({diff})'.rjust(6)
-
+def WorL(diff:int)->str:
+    if diff > 0: return 'Win'
+    elif diff == 0: return 'Draw'
+    else: return 'Lose'
 
 
 def vs_history(guild_id:int,team_name:str)->str:
@@ -102,10 +101,8 @@ def vs_history(guild_id:int,team_name:str)->str:
     view_df = df.loc[:,['date','result']]
     view_df.insert(1,'score',' '+df['score'].astype(str)+' - '+df['enemyScore'].astype(str)+' ')
     txt = view_df.to_string(
-        formatters={'result':result_formatter},
-        index=False,
-        justify= 'center',
-        header=['Date','Score','Result']
+        formatters={'result':WorL},
+        header=False
     )
     return f'{len(df)} matches found;  vs.**{team_name}**```{txt}```{sum_txt}'
 
@@ -135,13 +132,6 @@ def overall_matches(guild_id:int)->list[str]:
     )
     sum_txt = f'**{len(view_df)} teams**  (__**Win**__:{win}  __**Lose**__:{lose}  __**Draw**__:{draw})'
     return txt.split('\n') + [sum_txt]
-
-
-
-def WorL(diff:int)->str:
-    if diff > 0: return 'Win'
-    elif diff == 0: return 'Draw'
-    else: return 'Lose'
 
 
 

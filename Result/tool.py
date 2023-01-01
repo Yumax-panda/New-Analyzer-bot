@@ -2,12 +2,10 @@ from typing import Optional,Union
 
 import discord
 
+from datetime import datetime
 from io import BytesIO
 import pandas as pd
-
 import re
-
-from datetime import datetime
 
 import API.api as API
 

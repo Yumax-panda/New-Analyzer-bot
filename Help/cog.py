@@ -48,7 +48,7 @@ class CustomHelp(commands.HelpCommand):
             try:
                 reaction,user = await self.context.bot.wait_for(
                     'reaction_add',
-                    timeout= 30.0,
+                    timeout= 180.0,
                     check=check
                 )
                 await msg.remove_reaction(reaction,user)

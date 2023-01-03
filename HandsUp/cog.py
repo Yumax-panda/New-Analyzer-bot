@@ -46,15 +46,7 @@ class HandsUp(commands.Cog):
         msg,call,embed = tool.participate(
             ctx,hours,(list(set(members)) or [ctx.author]),action='c'
         )
-        old_msg = None
-        async for message in ctx.channel.history(limit=15):
-            if len(message.embeds) == 0:
-                continue
-            if message.embeds[0].title != '**6v6 War List**':
-                continue
-            else:
-                old_msg = message
-                break
+        old_msg = await tool.fetch_war_msg(ctx.channel)
         await tool.set_hours(ctx,hours,list(set(members)) or [ctx.author])
         await ctx.send(msg,embed=embed)
         if old_msg is not None:
@@ -92,15 +84,7 @@ class HandsUp(commands.Cog):
         msg,_,embed = tool.participate(
             ctx,hours,(list(set(members)) or [ctx.author]),action='t'
         )
-        old_msg = None
-        async for message in ctx.channel.history(limit=15):
-            if len(message.embeds) == 0:
-                continue
-            if message.embeds[0].title != '**6v6 War List**':
-                continue
-            else:
-                old_msg = message
-                break
+        old_msg = await tool.fetch_war_msg(ctx.channel)
         await tool.set_hours(ctx,hours,list(set(members)) or [ctx.author])
         await ctx.send(msg,embed=embed)
         if old_msg is not None:
@@ -133,15 +117,7 @@ class HandsUp(commands.Cog):
             await ctx.send('You need to choose the time.')
             return
         msg,embed = tool.drop_mogi(ctx,hours,list(set(members))or[ctx.author])
-        old_msg = None
-        async for message in ctx.channel.history(limit=15):
-            if len(message.embeds) == 0:
-                continue
-            if message.embeds[0].title != '**6v6 War List**':
-                continue
-            else:
-                old_msg = message
-                break
+        old_msg = await tool.fetch_war_msg(ctx.channel)
         await tool.drop_hours(ctx,hours,list(set(members))or[ctx.author])
         await ctx.send(msg,embed=embed)
         if old_msg is not None:
@@ -162,6 +138,11 @@ class HandsUp(commands.Cog):
         await tool.clear_hours(ctx, hours)
         details['recruit'] = {}
         API.post_details(ctx.guild.id, details)
+        old_msg = await tool.fetch_war_msg(ctx.channel)
+        if old_msg is not None:
+            embed = old_msg.embeds[0]
+            embed.title = '**6v6 War List**  (cleared)'
+            await old_msg.edit(embed=embed)
         await ctx.send('Successfully cleared.')
         return
 
@@ -178,15 +159,7 @@ class HandsUp(commands.Cog):
         if details is None:
             await ctx.send('No one joins a mogi.')
             return
-        old_msg = None
-        async for message in ctx.channel.history(limit=15):
-            if len(message.embeds) == 0:
-                continue
-            if message.embeds[0].title != '**6v6 War List**':
-                continue
-            else:
-                old_msg = message
-                break
+        old_msg = await tool.fetch_war_msg(ctx.channel)
         embed = tool.create_war_embed(details['recruit'])
         msg = None
         if embed is None:

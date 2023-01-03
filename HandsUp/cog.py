@@ -133,6 +133,8 @@ class HandsUp(commands.Cog):
         usage = '!clear'
     )
     async def clear(self,ctx:commands.Context)->None:
+        if ctx.interaction is not None:
+            await ctx.interaction.response.defer(thinking=True)
         details = API.get_details(ctx.guild.id)
         hours = details['recruit'].keys()
         await tool.clear_hours(ctx, hours)
@@ -155,6 +157,8 @@ class HandsUp(commands.Cog):
         usage = '!now'
     )
     async def warlist(self, ctx:commands.Context)->None:
+        if ctx.interaction is not None:
+            await ctx.interaction.response.defer(thinking=True)
         details = API.get_details(ctx.guild.id)
         if details is None:
             await ctx.send('No one joins a mogi.')

@@ -169,9 +169,9 @@ class HandsUp(commands.Cog):
 
     @common.is_allowed_guild()
     @commands.hybrid_command(
-        aliases = ['clist','participants'],
+        aliases = ['clist','participants','now'],
         brief = 'Show war list',
-        usage = '!warlist'
+        usage = '!now'
     )
     async def warlist(self, ctx:commands.Context)->None:
         details = API.get_details(ctx.guild.id)

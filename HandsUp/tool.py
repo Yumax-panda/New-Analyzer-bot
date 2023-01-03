@@ -200,3 +200,18 @@ async def mkmg_template(
         description += f'\n**Rank** {rank}'
         embed.description = description
     return msg,embed
+
+
+
+async def fetch_war_msg(
+    channel:discord.TextChannel,
+    limit:int = 15
+    )->Optional[discord.Message]:
+    async for message in channel.history(limit=limit):
+        if len(message.embeds) == 0:
+            continue
+        if message.embeds[0].title != '**6v6 War List**':
+            continue
+        else:
+            return message
+    return None

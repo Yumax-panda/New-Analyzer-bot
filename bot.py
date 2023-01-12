@@ -8,6 +8,7 @@ import json
 import logging
 import asyncio
 
+from Vote.tool import VoteView
 
 
 config = json.loads(os.environ['CONFIG'])
@@ -24,7 +25,8 @@ initial_extensions =[
     'Lounge.cog',
     'HandsUp.cog',
     'Result.cog',
-    'Setting.cog'
+    'Setting.cog',
+    'Vote.cog'
 ]
 
 
@@ -48,6 +50,7 @@ class AnalyzerBot(commands.Bot):
 
 
     async def setup_hook(self)-> None:
+        self.add_view(VoteView())
         await bot.tree.sync()
 
 

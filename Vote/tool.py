@@ -94,10 +94,10 @@ class VoteView(discord.ui.View):
         txt = '\n'.join(msg.content.split('\n')[:2]) + '\n'
         c_name = [member.name for member in can]
         s_name = [f'({member.name})' for member in sub]
-        txt += f"@{6-len(c_name)} {f'({len(s_name)})' if s_name else ''}\n"
+        txt += f"\n> **@{6-len(c_name)} {f'({len(s_name)})' if s_name else ''}**\n"
         txt += ', '.join(c_name + s_name) + '\n'
         if not_voted:
-            txt += 'Unanswered\n'+', '.join([member.name for member in not_voted])
+            txt += '\n> **Unanswered**\n'+', '.join([member.name for member in not_voted])
         await interaction.followup.send(txt)
         return
 

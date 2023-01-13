@@ -185,7 +185,7 @@ async def mkmg_template(
         rank = common.getRank(int(ave_mmr))
     ave_txt = ''
     if ave_mmr is not None:
-        ave_txt = f'平均MMR{floor(ave_mmr/500)*500}程度\n'
+        ave_txt = f'平均MMR {floor(ave_mmr/500)*500}程度\n'
     msg = f'{hour if hour is not None else ""} 交流戦お相手募集します\n'
     msg += f'こちら{name}\n' + ave_txt
     msg += f'{"主催持てます" if host else "主催持っていただきたいです"}\n'

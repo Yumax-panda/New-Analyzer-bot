@@ -69,7 +69,7 @@ def export_data(guild_id:int,team_name:str)->Optional[discord.File]:
             columns=['team','score','enemyScore','enemy','date']
         )
     buffer.seek(0)
-    return discord.File(fp=buffer,filename=f'results.csv')
+    return discord.File(fp=buffer,filename='results.csv')
 
 
 

@@ -51,7 +51,7 @@ def export_data(guild_id:int,team_name:str)->Optional[discord.File]:
     if data is None:
         return None
     buffer = BytesIO()
-    if data.get('mogi') is not None: # previous data format
+    if type(data) is dict: # previous data format
         pd.DataFrame(data['mogi']).to_csv(
             buffer,
             encoding= 'utf-8',

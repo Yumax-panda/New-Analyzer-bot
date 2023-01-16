@@ -6,6 +6,7 @@ import discord
 
 from io import BytesIO
 import pandas as pd
+import os
 
 import Result.tool as tool
 import API.api as API
@@ -15,7 +16,7 @@ import plotting
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
-SHEAT_BOT_ID = 813078218344759326
+SOKUJI_ID = os.environ['SOKUJI_ID']
 
 class Result(commands.Cog):
     def __init__(self,bot)->None:
@@ -44,7 +45,7 @@ class Result(commands.Cog):
             await interaction.followup.send('Invalid input.')
             return
         embed = message.embeds[0]
-        if not ('6v6' in embed.title and message.author.id == SHEAT_BOT_ID):
+        if not ('6v6' in embed.title and message.author.id == SOKUJI_ID):
             await interaction.followup.send('Invalid format.')
             return
         scores = tool.get_score(embed.description)

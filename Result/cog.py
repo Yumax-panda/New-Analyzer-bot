@@ -16,7 +16,7 @@ import plotting
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
-SOKUJI_ID = os.environ['SOKUJI_ID']
+SOKUJI_ID = int(os.environ['SOKUJI_ID'])
 
 class Result(commands.Cog):
     def __init__(self,bot)->None:

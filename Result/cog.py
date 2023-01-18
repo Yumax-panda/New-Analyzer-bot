@@ -315,7 +315,7 @@ class Result(commands.Cog):
         date = tool.get_date(date)
         df = pd.DataFrame(API.get_results(interaction.guild_id))
         if len(df) == 0:
-            await interaction.followup.send('Noting to edit.')
+            await interaction.followup.send('Nothing to edit.')
             return
         if not (0<=result_id and result_id < len(df)):
             await interaction.followup.send('Invalid result ID.')

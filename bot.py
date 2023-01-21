@@ -26,7 +26,8 @@ initial_extensions =[
     'HandsUp.cog',
     'Result.cog',
     'Setting.cog',
-    'Vote.cog'
+    'Vote.cog',
+    'Sokuji.cog'
 ]
 
 
@@ -78,14 +79,13 @@ async def on_ready():
 
 
 @bot.event
-async def on_guild_join(guild):
+async def on_guild_join(guild: discord.Guild):
     logging.info(f'join "{guild}" (id: {guild.id})')
     await update_activity()
 
 
-
 @bot.event
-async def on_command_error(ctx,error):
+async def on_command_error(ctx: commands.Context,error):
     if isinstance(error,commands.CommandNotFound):
         return
     if isinstance(error,commands.MissingRequiredArgument):

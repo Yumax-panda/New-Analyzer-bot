@@ -10,9 +10,9 @@
 - MK8DX 150cc Lounge における戦績確認
 - プレイヤーの検索
 - 交流戦の挙手
-- 交流戦中の即時集計
-- 交流戦の戦績管理
-- 交流戦の参加アンケート
+- 即時集計
+- 戦績管理
+- 参加アンケート
 
 MK8DX 150cc Loungeの戦績は[MK8DX 150cc Leaderboard](https://www.mk8dx-lounge.com/Leaderboard)より取得しています。
 

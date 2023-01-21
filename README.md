@@ -10,6 +10,7 @@
 - MK8DX 150cc Lounge における戦績確認
 - プレイヤーの検索
 - 交流戦の挙手
+- 交流戦の挙手
 - 交流戦の戦績管理
 - 交流戦の参加アンケート
 
@@ -29,7 +30,7 @@ MK8DX 150cc Loungeの戦績は[MK8DX 150cc Leaderboard](https://www.mk8dx-lounge
 
 #### **スラッシュコマンドとテキストコマンドの両対応**
 
-ほとんどのコマンドがチャット欄にコマンドを打ち込む形式のテキストコマンドと、" / "から始まるスラッシュコマンドの両方に対応しているため、使いやすい形式でコマンドを実行できます。
+多くのコマンドがチャット欄にコマンドを打ち込む形式のテキストコマンドと、" / "から始まるスラッシュコマンドの両方に対応しているため、使いやすい形式でコマンドを実行できます。
 
 
 #### **ロールとの連携**
@@ -45,6 +46,7 @@ Discordサーバー内のロール（役職）と連携した機能を実装し�
 
 - [StatsBot-150cc-Lounge](https://github.com/fuyu-neko/StatsBot-150cc-Lounge)
 - [MK8DX-Lounge-Bot](https://github.com/cyndaquilx/MK8DX-Lounge-Bot)
+- [mkbot.py](https://github.com/sheat-git/mkbot.py)
 
 
 ## 使用方法

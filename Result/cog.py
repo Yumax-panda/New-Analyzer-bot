@@ -64,7 +64,7 @@ class Result(commands.Cog):
 
         if message.author.id == self.bot.user.id:
             embed.set_author(name='Archive')
-            await message.edit(embed = embed)
+            await message.edit(embed = embed, view = None)
 
         return
 

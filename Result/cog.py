@@ -19,11 +19,11 @@ from zoneinfo import ZoneInfo
 SOKUJI_ID = int(os.environ['SOKUJI_ID'])
 
 class Result(commands.Cog):
-    def __init__(self,bot)->None:
-        self.bot = bot
+    def __init__(self,bot: commands.Bot)->None:
+        self.bot: commands.Bot = bot
         self.description = 'Manage 6v6 War results'
         self.ctx_menu = app_commands.ContextMenu(
-            name = 'Register by Sheat bot',
+            name = 'Register Result',
             callback= self.register_by_embed
         )
         self.bot.tree.add_command(self.ctx_menu)
@@ -41,13 +41,17 @@ class Result(commands.Cog):
         message:discord.Message
     )->None:
         await interaction.response.defer(thinking=True)
+
         if len(message.embeds) == 0:
             await interaction.followup.send('Invalid input.')
             return
-        embed = message.embeds[0]
-        if not ('6v6' in embed.title and message.author.id == SOKUJI_ID):
+
+        embed = message.embeds[0].copy()
+
+        if not ('6v6' in embed.title and message.author.id in [SOKUJI_ID,self.bot.user.id]):
             await interaction.followup.send('Invalid format.')
             return
+
         scores = tool.get_score(embed.description)
         data = {
             'score':scores[0],
@@ -57,6 +61,11 @@ class Result(commands.Cog):
         }
         tool.register_result(interaction.guild_id,**data)
         await interaction.followup.send(f'Registered  vs.{data["enemy"]}  {data["score"]}-{data["enemyScore"]}  **{tool.WorL(data["score"]-data["enemyScore"])}**')
+
+        if message.author.id == self.bot.user.id:
+            embed.set_author(name='Archive')
+            await message.edit(embed = embed)
+
         return
 
 

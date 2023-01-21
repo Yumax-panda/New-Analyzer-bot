@@ -117,8 +117,8 @@ class Sokuji(commands.GroupCog, group_name = 'sokuji',description = 'Sokuji'):
         return
 
 
-    @app_commands.command(description='Edit Sokuji')
-    async def edit(
+    @app_commands.command(name='edit',description='Edit Sokuji')
+    async def edit_sokuji(
         self,
         interaction: Interaction,
         tag: Optional[str] = None,

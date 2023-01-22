@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from page import EmbedPage
 
 
 
@@ -30,31 +31,7 @@ class CustomHelp(commands.HelpCommand):
                     )
                 embed.set_footer(text = '[Optional]   <Required>')
                 embeds.append(embed)
-        count = 0
-        msg = await self.get_destination().send(embed=embeds[0])
-        await msg.add_reaction('◀')
-        await msg.add_reaction('▶')
-        reaction = None
-        def check(reaction,user):
-            return user == self.context.author
-
-        while True:
-            if str(reaction) == '◀':
-                count -=1
-                await msg.edit(embed=embeds[(count)%len(embeds)])
-            if str(reaction) == '▶':
-                count +=1
-                await msg.edit(embed=embeds[(count)%len(embeds)])
-            try:
-                reaction,user = await self.context.bot.wait_for(
-                    'reaction_add',
-                    timeout= 180.0,
-                    check=check
-                )
-                await msg.remove_reaction(reaction,user)
-            except:
-                break
-        await msg.delete(delay=5.0)
+        await EmbedPage(embeds,ctx=self.context).start()
 
 
 

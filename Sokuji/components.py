@@ -67,14 +67,20 @@ class ButtonEN(Button):
 
 
 class RegisterView(View):
-    def __init__(self, sokuji: SokujiMessage):
-        super().__init__(timeout=180)
+    def __init__(self, sokuji: SokujiMessage,timeout: Optional[float] = 180.0):
+        super().__init__(timeout=timeout)
         self.sokuji = sokuji
 
         if sokuji.lang == Lang.EN:
             self.add_item(ButtonEN(sokuji=sokuji))
         else:
             self.add_item(ButtonJA(sokuji=sokuji))
+
+    async def on_timeout(self) -> None:
+        if self.sokuji.message:
+            self.sokuji.change_status(Status.ARCHIVE)
+            await self.sokuji.message.edit(view=None,embed=self.sokuji.embed)
+        return
 
 
 def get_ranks(text: str) -> Optional[list[int]]:

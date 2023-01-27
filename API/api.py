@@ -36,7 +36,7 @@ storage_client = storage.Client(
 )
 bucket = storage_client.bucket(name_key['bucket_name'])
 
-# setup Google Spreadsheet setup
+# setup Google Spreadsheet
 scope = ['https://spreadsheets.google.com/feeds',
          'https://www.googleapis.com/auth/drive']
 

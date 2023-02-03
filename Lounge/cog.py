@@ -192,6 +192,7 @@ class Lounge(commands.Cog):
     async def from_fc(
         self,
         ctx: commands.Context,
+        *,
         text: str
     ) -> None:
         if ctx.interaction is not None:

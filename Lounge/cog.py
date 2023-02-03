@@ -5,7 +5,11 @@ from discord.ext import commands
 import discord
 
 import os
+import re
 import json
+import asyncio
+import API.lounge_api as lapi
+import pandas as pd
 
 import common
 import Lounge.tool as tool
@@ -14,6 +18,7 @@ import API.api as API
 config = json.loads(os.environ['CONFIG'])
 
 DETAIL_URL = 'https://www.mk8dx-lounge.com/PlayerDetails/'
+_RE = re.compile(r'[0-9]{4}\-[0-9]{4}\-[0-9]{4}')
 
 
 class Lounge(commands.Cog):
@@ -182,6 +187,34 @@ class Lounge(commands.Cog):
         await interaction.response.send_message(msg,ephemeral=True)
         return
 
+    @common.is_allowed_guild()
+    @commands.hybrid_command(aliases=['fm'])
+    async def from_fc(
+        self,
+        ctx: commands.Context,
+        text: str
+    ) -> None:
+        if ctx.interaction is not None:
+            await ctx.interaction.response.defer(thinking = True)
+        fc_list: list[str] = _RE.findall(text)
+        if not fc_list:
+            await ctx.send('Not Found')
+            return
+        tasks = [asyncio.create_task(lapi.get_player(fc=fc)) for fc in fc_list]
+        players = await asyncio.gather(*tasks, return_exceptions=False)
+        df = pd.DataFrame([p for p in players if p is not None])
+        if len(df) == 0:
+            await ctx.send('Not Found')
+            return
+        df.drop_duplicates(subset='name').sort_values('mmr',ascending=False)
+        ave = df['mmr'].mean()
+        new_list = df.to_dict('records')
+        rank = common.getRank(int(ave))
+        txt = f'**Average MMR: {ave:.1f}**\n\n'
+        for i,player in enumerate(new_list):
+            txt +=f'{str(i+1).rjust(3)}: {player["name"]} (MMR: {player["mmr"]})\n'
+        txt += f'\n**Rank** {rank}'
+        await ctx.send(txt)
 
 
 

@@ -189,7 +189,10 @@ class Lounge(commands.Cog):
         return
 
     @common.is_allowed_guild()
-    @commands.hybrid_command(aliases=['fm','mkc'])
+    @commands.hybrid_command(
+        aliases=['fm','mkc'],
+        brief = 'Show MMR from fc.',
+        usage = '!fm fc1, fc2, ...')
     async def from_fc(
         self,
         ctx: commands.Context,

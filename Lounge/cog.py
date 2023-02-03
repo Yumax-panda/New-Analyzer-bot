@@ -18,6 +18,7 @@ import API.api as API
 config = json.loads(os.environ['CONFIG'])
 
 DETAIL_URL = 'https://www.mk8dx-lounge.com/PlayerDetails/'
+MKC_URL = 'https://www.mariokartcentral.com/mkc/registry/players/'
 _RE = re.compile(r'[0-9]{4}\-[0-9]{4}\-[0-9]{4}')
 
 
@@ -188,11 +189,10 @@ class Lounge(commands.Cog):
         return
 
     @common.is_allowed_guild()
-    @commands.hybrid_command(aliases=['fm'])
+    @commands.hybrid_command(aliases=['fm','mkc'])
     async def from_fc(
         self,
         ctx: commands.Context,
-        *,
         text: str
     ) -> None:
         if ctx.interaction is not None:
@@ -207,13 +207,16 @@ class Lounge(commands.Cog):
         if len(df) == 0:
             await ctx.send('Not Found')
             return
-        df.drop_duplicates(subset='name').sort_values('mmr',ascending=False)
+
         ave = df['mmr'].mean()
-        new_list = df.to_dict('records')
+
         rank = common.getRank(int(ave))
         txt = f'**Average MMR: {ave:.1f}**\n\n'
-        for i,player in enumerate(new_list):
-            txt +=f'{str(i+1).rjust(3)}: {player["name"]} (MMR: {player["mmr"]})\n'
+        for i,player in enumerate(players):
+            if player is None:
+                txt +=f"N/A ({fc_list[i]})\n"
+            else:
+                txt +=f'{str(i+1).rjust(3)}: [{player["name"]}]({MKC_URL}{player["registryId"]}) (MMR: {player["mmr"]})\n'
         txt += f'\n**Rank** {rank}'
         await ctx.send(txt)
 

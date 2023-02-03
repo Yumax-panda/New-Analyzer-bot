@@ -216,7 +216,7 @@ class Lounge(commands.Cog):
             if player is None:
                 txt +=f"N/A ({fc_list[i]})\n"
             else:
-                txt +=f'{str(i+1).rjust(3)}: [{player["name"]}]({MKC_URL}{player["registryId"]}) (MMR: {player["mmr"]})\n'
+                txt +=f'[{player["name"]}]({MKC_URL}{player["registryId"]}) (MMR: {player["mmr"]})\n'
         txt += f'\n**Rank** {rank}'
         await ctx.send(txt)
 

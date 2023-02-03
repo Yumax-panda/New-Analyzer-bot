@@ -189,10 +189,7 @@ class Lounge(commands.Cog):
         return
 
     @common.is_allowed_guild()
-    @commands.hybrid_command(
-        aliases=['fm','mkc'],
-        brief = 'Show MMR from fc.',
-        usage = '!fm fc1, fc2, ...')
+    @commands.hybrid_command(aliases=['fm','mkc'])
     async def from_fc(
         self,
         ctx: commands.Context,
@@ -215,15 +212,19 @@ class Lounge(commands.Cog):
         ave = df['mmr'].mean()
 
         rank = common.getRank(int(ave))
-        txt = f'**Average MMR: {ave:.1f}**\n\n'
+        txt = ''
         for i,player in enumerate(players):
             if player is None:
-                txt +=f'{str(i+1).rjust(3)}:  N/A ({fc_list[i]})\n'
+                txt +=f"N/A ({fc_list[i]})\n"
             else:
-                txt +=f'{str(i+1).rjust(3)}:　{player["name"]} (MMR: {player["mmr"]})\n'
+                txt +=f'{str(i+1).rjust(3)}: [{player["name"]}]({MKC_URL}{player["registryId"]}) (MMR: {player["mmr"]})\n'
         txt += f'\n**Rank** {rank}'
-        await ctx.send(txt)
-
+        e = common.ColoredEmbed(
+            mmr = ave,
+            title= f'Average MMR: {ave:.1f}**',
+            description = txt
+        )
+        await ctx.send(embed=e)
 
 
 async def setup(bot)->None:

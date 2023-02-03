@@ -215,7 +215,7 @@ class Lounge(commands.Cog):
         txt = f'**Average MMR: {ave:.1f}**\n\n'
         for i,player in enumerate(players):
             if player is None:
-                txt +=f"N/A ({fc_list[i]})\n"
+                txt +=f'{str(i+1).rjust(3)}:  ' +f"N/A ({fc_list[i]})\n"
             else:
                 txt +=f'{str(i+1).rjust(3)}:　{player["name"]} (MMR: {player["mmr"]})\n'
         txt += f'\n**Rank** {rank}'

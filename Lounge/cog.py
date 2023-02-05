@@ -231,7 +231,7 @@ class Lounge(commands.Cog):
         txt += f'\n**Rank** {rank}'
         e = common.ColoredEmbed(
             mmr = ave,
-            title= f'Average MMR: {ave:.1f}**',
+            title= f'Average MMR: {ave:.1f}',
             description = txt
         )
         await ctx.send(embed=e)

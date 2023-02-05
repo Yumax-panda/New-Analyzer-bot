@@ -204,24 +204,34 @@ class Lounge(commands.Cog):
             return
         tasks = [asyncio.create_task(lapi.get_player(fc=fc)) for fc in fc_list]
         players = await asyncio.gather(*tasks, return_exceptions=False)
-        df = pd.DataFrame([p for p in players if p is not None])
+        failed_fc: list[str] = []
+        filtered_players = []
+
+        for i, p in enumerate(players):
+            if p is None:
+                failed_fc.append(fc_list[i])
+            else:
+                filtered_players.append(p)
+
+        df = pd.DataFrame(filtered_players)
         if len(df) == 0:
             await ctx.send('Not Found')
             return
 
         ave = df['mmr'].mean()
-
         rank = common.getRank(int(ave))
         txt = ''
-        for i,player in enumerate(players):
-            if player is None:
-                txt +=f'{str(i+1).rjust(3)}:   N/A ({fc_list[i]})\n'
-            else:
-                txt +=f'{str(i+1).rjust(3)}: [{player["name"]}]({MKC_URL}{player["registryId"]}) (MMR: {player["mmr"]})\n'
+
+        for i, player in enumerate(df.sort_values('mmr', ascending = False).to_dict('records')):
+            txt +=f'{str(i+1).rjust(3)}: [{player["name"]}]({MKC_URL}{player["registryId"]}) (MMR: {player["mmr"]})\n'
+
+        for fc in failed_fc:
+            txt +=f"N/A ({fc})\n"
+
         txt += f'\n**Rank** {rank}'
         e = common.ColoredEmbed(
             mmr = ave,
-            title= f'Average MMR: {ave:.1f}',
+            title= f'Average MMR: {ave:.1f}**',
             description = txt
         )
         await ctx.send(embed=e)

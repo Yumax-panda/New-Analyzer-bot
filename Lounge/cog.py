@@ -182,9 +182,13 @@ class Lounge(commands.Cog):
             await interaction.response.send_message('Not Found',ephemeral=True)
             return
         msg = f"[{player['name']}]({DETAIL_URL}{player['id']})"
-        user = self.bot.get_user(int(d_id or player['discordId']))
-        if user is not None:
-            msg += f'   ({str(user)})'
+        try:
+            user = self.bot.get_user(int(d_id or player.get('discordId')))
+            if user is not None:
+                msg += f'   ({str(user)})'
+        except:
+            pass
+        
         await interaction.response.send_message(msg,ephemeral=True)
         return
 
